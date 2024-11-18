@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+
+    <jcms:site:seotitle/>
+     <!-- Fevicon -->
+     <jcms:site:fevicon/>
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="css/bootstrap.css" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/responsive.css" />
+    <link rel="stylesheet" href="css/new-style.css"/>
+    <link rel="shortcut icon" href="img/fav.png" type="image/x-icon">
+    <link rel="icon" href="img/fav.png" type="image/x-icon">
+    <!-- Responsive -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+</head>
+<body>
+<div class="page-wrapper">
+        <!-- Main Header-->
+        <jcms:module:header/>
+        <!--End Main Header -->
+<jcms:module:contact-us/>
+
+
+<!-- footer -->
+<jcms:module:footer/>
+<!-- footer end -->
+
+</div><!-- End Page Wrapper -->
+
+<!-- Scroll To Top -->
+<div class="scroll-to-top scroll-to-target" data-target="html"><span class="fa fa-angle-up"></span></div>
+
+<script src="js/jquery.js"></script>
+<script src="js/popper.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/jquery.fancybox.js"></script>
+<script src="js/jquery-ui.js"></script>
+<script src="js/wow.js"></script>
+<script src="js/appear.js"></script>
+<script src="js/owl.js"></script>
+<script src="js/validate.js"></script>
+<script src="js/script.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#contact-form').validate({
+            errorElement: 'span',
+            errorClass: 'validate-has-error',
+            rules: {
+                name: {required: true},
+                lname: {required: true},
+                phone: {required: true},
+                email: {required: true, email: true},
+                message: {required: true}
+            },
+            messages: {
+                name: {required: "Please enter your Name."},
+                lname: {required: "Please enter your last Name."},
+                phone: {required: "Please enter your Phone Number."},
+                email: {required: "Please enter your Email Address."},
+                message: {required: "Please enter your Message."}
+            },
+            submitHandler: function (form) {
+                var Frmval = $("form#contact-form").serialize();
+                $("button#submit").attr("disabled", "true").val('Processing...');
+                $.ajax({
+                    type: "POST",
+                    dataType: "JSON",
+                    url: "enquery_mail.php",
+                    data: "action=forContact&" + Frmval,
+                    success: function (data) {
+                        var msg = eval(data);
+                        $(".contact_ctc").removeAttr("disabled").val('Submit');
+                        $('div#result_msg').html(msg.message).css('display', 'block').fadeOut(8000);
+                        $("form#contact-form")[0].reset();
+                    }
+                });
+                return false;
+            }
+        })
+    });
+</script>
+
+</body>
+
+</html>

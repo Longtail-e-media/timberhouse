@@ -1,0 +1,59 @@
+synhawk 3.0.0 upadate
+
+the main version signifies the major changes in the synhawk system: eg: going from 2.9.9 to 3.0.0
+the secondary version signifies changes such as adding new module which will be used in other major properties as well eg: going form 2.8.9 to 2.9.0
+the final numeric version signifies the changes inside the module which will be used in other major projects eg: going from 2.9.0 to 2.9.1
+
+Major version changes
+-updated php version from 7.3 to 8.2
+--changes in session.php
+---need to define the variable before using it before it was possible to define it when you use it eg. line 4
+--changes in function.php
+---remove magic code eg.line no -800
+---change method to define time format eg. line no.97
+--changes in php.ini
+---addding gd extension to allow uploadify to work in php 8.2
+-other major changes were carried out from 8.1 changes done previously by Swarna shakya
+
+Minor version changes
+-changes in module
+--added module.header
+---added dynamic logo
+---added dynamic menu
+---added dynamic social links
+--added module.footer
+---added dynamic brief content
+---added dyanmic footer menu
+---added dynamic soical footer
+--added module.faq
+--added module.mainservice
+--added module.nearby
+--added module.ota
+--added module.timeline
+--added module.vacency
+
+Revision version changes
+-possible to uplaod webp images(chanegs in uploadify.php)
+-possible to uplaod pdf(chanegs in uploadify.php)
+-possible to sort features chanegs in subpackges
+-added dynamic banner for static pages(contact,gallery, facilities and more)
+-added facebook pixel section
+-added google pixel section
+-added schedule managent in package(silverline)
+-added method to attach pdf to mail though form 
+-added method to only provide premission to super admin
+-added method to recive an email to support when forgot pass word
+-realtime property change function in siddartha where selecting cafe or hotel will change the needed data 
+-las and siddartha(review section) where property selection will change the data according to the drop down data select
+
+-fixed issues with multiple depreceated code going from 7.3 php to 8.2 php
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Meta tags -->
+    <jcms:site:seotitle/>
+    <!-- Fevicon -->
+    <jcms:site:fevicon/>
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+      <link rel="stylesheet" href="css/shortcode/shortcodes.css" rel="stylesheet" >
+    <!-- strock gap icons -->
+    <link rel="stylesheet" href="vendors/Stroke-Gap-Icons-Webfont/style.css">
+    <link rel="stylesheet" href="css/animate.min.css">
+    <!--    owl-carousel-->
+    <link rel="stylesheet" href="vendors/owlcarousel/owl.carousel.css"> 
+    <link rel="stylesheet" href="vendors/jquery-ui-1.11.4/jquery-ui.min.css">
+    <!-- Main Css  -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">   
+    <script src="js/vendor/modernizr-2.8.3.min.js"></script>
+</head>
+
+<body>
+    <header class="header-area fixed header-sticky">
+	    <div class="container-fluid">
+	        <div class="row">
+	             <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+	                <div class="logo">
+	                   <jcms:site:logo/>
+	                </div>
+	            </div>
+	            <div class="col-lg-10 col-md-10 col-sm-10 d-none d-lg-block">
+	               
+		            <!-- Mainmenu Start -->
+                    <div class="main-menu float-right">
+                        <nav>
+                           <jcms:module:menu/> 
+                        </nav>
+                    </div>
+		            <!-- Mainmenu End -->
+	            </div>
+	        </div>
+	    </div>
+        <!-- Mobile Menu Area start -->
+        <div class="mobile-menu-area d-block d-lg-none">
+            <div class="container">
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        <div class="mobile-menu">
+                  <div class="row">
+                          <nav id="dropdown">
+                                <!-- Menu module -->
+            					<jcms:module:menu/>
+                            </nav>
+                        </div>					
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile Menu Area end --> 
+	</header>
+    <!-- Header Area End -->
+
+    <jcms:module:bookpkg_detail/> 
+    
+    <!-- Footer Area Start -->
+    <jcms:module:footer-booking/>
+    <!-- Footer Area End -->
+
+    <!-- All js here -->
+    <script src="js/vendor/jquery-1.12.4.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/owl.carousel.min.js"></script> 
+    <script src="js/ajax-mail.js"></script>
+    <script src="js/jquery.ajaxchimp.min.js"></script>          
+    <script src="js/jquery.meanmenu.js"></script>  
+    <script src="js/jquery.counterup.min.js"></script>
+    <script src="js/waypoints.min.js"></script>
+    <script src="js/isotope.pkgd.min.js"></script>
+    <script src="js/imagesloaded.pkgd.min.js"></script> 
+    <script src="js/jquery.magnific-popup.js"></script>
+    <script src="js/plugins.js"></script>
+    <script src="vendors/jquery-ui-1.11.4/jquery-ui.min.js"></script>
+    <script src='https://checkout.stripe.com/checkout.js'></script>
+    <script src="js/jquery.validate.min.js"></script>
+    <!-- <script src="js/main.js"></script> -->
+    <script>
+        var base_url = jQuery('base').attr('url');
+        // Package Booking form
+        if(jQuery("form#frm-booking")[0]) {
+
+jQuery("form#frm-booking")[0].reset();
+
+jQuery(document).on('change', 'input[name="multi_item[]"]', function() {
+    var _parent = jQuery(this).parents("tr.parent");
+    var multi_item = jQuery(this).val();
+
+    var result = multi_item.split('|');
+    if($(this).is(':checked')){
+        _parent.find('input[name="no_pax[]"]').prop('disabled',false);
+        _parent.find('input[name="no_pax[]"]').val('1');
+        _parent.find('.row_total').text(result[1]);
+        _parent.find('.row_hidden').val(result[1]);
+    }
+    else{
+        _parent.find('input[name="no_pax[]"]').prop('disabled',true);
+        _parent.find('input[name="no_pax[]"]').val('');
+        _parent.find('.row_total').text('');
+        _parent.find('.row_hidden').val('');
+    }
+    totalmultiamt(); 
+});
+jQuery(document).on('change', 'input[name="no_pax[]"]', function() {
+    var _parent = jQuery(this).parents("tr.parent");
+    var multi_price = _parent.find('input[name="multi_item[]"]').val();
+    var pax = jQuery(this).val();
+
+    var result = multi_price.split('|');
+    
+    var e= parseFloat(result[1] * pax);
+    _parent.find('.row_total').text(e);
+    _parent.find('.row_hidden').val(e);
+    totalmultiamt();
+    
+
+});
+            
+jQuery('input[name="no_pax[]"]').keyup(function () {  
+                this.value = this.value.replace(/[^0-9\.]/g,''); 
+            });
+    
+            jQuery(document).on('blur', 'input[name="no_pax[]"]', function() {
+                var _parent = jQuery(this).parents("tr.parent");
+                var pax = jQuery(this).val();
+                var price =  _parent.find('input[name="package_price[]"]').val();
+                if(pax!='') {           
+                    var totamt = (parseInt(pax)*parseInt(price));
+                    _parent.find('td.totalamt').html(totamt);
+                }else {
+                    _parent.find('td.totalamt').html(0);
+                }   
+                totalpkgamt();
+            });
+            
+            
+            jQuery(document).on('change', 'select[name="no_pax[]"]', function() {
+                var _parent = jQuery(this).parents("tr.parent");
+                var pax = jQuery(this).val();
+                var price =  _parent.find('input[name="package_price[]"]').val();
+                var dis =  _parent.find('input[name="package_discount[]"]').val();
+                if(dis!=0){
+                    if(pax==1){
+                        var disamt = 0;
+    
+                    }else{
+                        var disamt = (parseInt(price)*parseInt(pax)*parseInt(dis))/100;
+                    }
+                    jQuery('td.discountamt').html(disamt);
+                }
+                if(pax!='') {
+                    var totamt = (parseInt(pax)*parseInt(price));
+                    _parent.find('td.totalamt').html(totamt);
+                }else {
+                    _parent.find('td.totalamt').html(0);
+                }
+                totalpkgamt();
+            });
+    
+            jQuery('#person_checkin').datepicker({
+                changeMonth: true,
+                changeYear: true,
+                dateFormat: 'yy-mm-dd',
+                minDate: '0',
+                maxDate: '+2Y'
+            });
+              jQuery("form#frm-booking").validate({
+                errorElement: 'span',
+                errorClass: 'validate-has-error',
+                rules: {
+                    radio_type:{ required: true},
+                    'no_pax[]': { required: true },
+                    person_checkin: { required: true },
+                    person_first: { required: true },
+                    person_last: { required: true },
+                    person_contact: { required: true },
+                    person_email: { required: true, email: true },
+                    person_address: { required: true },
+                    person_country: { required: true },
+                    person_city: { required: true },
+                    person_zpicode: { required: true },
+                    /*person_message: { required: true },*/
+                    userstring:{
+                        required:true,
+                        minlength:5,
+                        remote: {
+                            url: base_url+"captcha/checkcaptcha.php",
+                            type: "post"
+                        }
+                    }
+                },
+                messages:{              
+                    radio_type: { required: 'Required !' },
+                    'no_pax[]': { required: 'Required !' },
+                    person_checkin: { required: 'Required !' },
+                    person_first: { required: 'Required !' },
+                    person_last: { required: 'Required !' },
+                    person_contact: { required: 'Required !' },
+                    person_email: { required: 'Required !', email: 'Required valid email address !' },
+                    person_address: { required: 'Required !' },
+                    person_country: { required: 'Required !' },
+                    person_city: { required: 'Required !' },
+                    person_zpicode: { required: 'Required !' },
+                    /*person_message: { required: 'Required !' },*/
+                    userstring:{
+                        required: 'Required !',
+                        minlength: 'Security Code must be at least 5 characters',
+                        remote: "Security Code Not match"     
+                    } 
+                },      
+                submitHandler:function(form){  
+                    var Frmval = jQuery("form#frm-booking").serialize();  
+                    jQuery("button#submit").attr("disabled","true").text('Processing...');
+                    jQuery.ajax({
+                        type: "POST",
+                        dataType:"JSON",
+                        url: base_url+"enquery_package.php",
+                        data:"action=bookingmail&"+Frmval,
+                        success:function(data){
+                            var msg=eval(data); 
+                            jQuery("button#submit").removeAttr("disabled").text('Submit');    
+                            // alert(msg.message);
+                            jQuery('div#msg').html(msg.message).css('display','block').fadeOut(8000);
+                            jQuery("form#frm-booking")[0].reset();
+                        }               
+                    });
+                    return false;
+                  }
+            });
+        }
+        function totalpkgamt() {
+        var e = 0,d=0;
+        jQuery("form#frm-booking").find("td.totalamt").each(function() {
+            var a = jQuery(this).text();
+            e += parseFloat(a)
+        });
+        jQuery("form#frm-booking").find("td.discountamt").each(function() {
+            var a = jQuery(this).text();
+            d += parseFloat(a)
+        });
+        // var a = 10 * e / 100;
+        e = e - d;
+        jQuery("form#frm-booking").find(".grand-total").text(e);
+        jQuery("form#frm-booking").find('input[name="pay_amount"]').val(e);
+    }
+    function totalmultiamt() {
+        var e = 0,d=0;
+        
+        $(".row_total").each(function() {
+            var stotal = jQuery(this).text();
+            if(stotal!=''){
+                e += parseFloat(stotal)
+            }
+            // console.log(e);
+        })
+        // var a = 10 * e / 100;
+        // e = e - d;
+        jQuery("form#frm-booking").find(".gtotal").text(e);
+       jQuery("form#frm-booking").find(".gtotal").val(e);
+        // jQuery("form#frm-booking").find('input[name="pay_amount"]').val(e);
+    }
+    </script>
+
+    <jcms:footer:script/>
+</body>
+</html>

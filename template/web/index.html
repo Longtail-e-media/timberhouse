@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+
+    <jcms:site:seotitle/>
+     <!-- Fevicon -->
+     <jcms:site:fevicon/>
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="css/bootstrap.css" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/responsive.css" />
+    <link rel="stylesheet" href='https://cdnjs.cloudflare.com/ajax/libs/datepicker/1.0.10/datepicker.min.css' />
+
+    <link rel="stylesheet" href="css/new-style.css"/>
+    <link rel="shortcut icon" href="img/fav.png" type="image/x-icon">
+    <link rel="icon" href="img/fav.png" type="image/x-icon">
+    <!-- Responsive -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+</head>
+<body>
+    <div class="page-wrapper">
+        <!-- Main Header-->
+        <jcms:module:header/>
+        <!--End Main Header -->
+        <!-- Banner Section -->
+        <section class="banner-section-four homepage_bg_color">
+            <div class="auto-container">
+ <!-- homepage text -->
+<jcms:module:home_page/>
+ <!-- homepage text end -->
+                <!-- Room Search Form -->
+                <div class="search-form-outer room_search">
+                    <div class="room-search-form-three">
+                        <jcms:module:rojai-booking/>
+                    </div>
+                </div>
+                <!-- End Room Search Form -->
+                <div class="carousel-outer homepage_slider">
+                    <div class="banner-carousel owl-carousel owl-theme">
+                        <jcms:module:slideshow/>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!--END Banner Section -->
+        <!-- About Section Four -->
+        <section class="about-section-four">
+            <div class="auto-container">
+                <div class="outer-box">
+<jcms:module:home-article/>
+                </div>
+            </div>
+        </section>
+        <!-- End About Section Four -->
+        <!-- Rooms Section -->
+        <section class="rooms-section comfortable__rooms">
+            <div class="auto-container">
+                <div class="sec-title text-center">
+                    <h2>Get a Comfortable Room<br> Feel The Comfort.</h2>
+                </div>
+                <div class="row justify-content-center">
+                    <!-- Room Block -->
+<jcms:module:details-page/>
+                    <!-- Room Block -->
+
+                </div>
+            </div>
+        </section>
+        <!--End Rooms Section -->
+        <!-- Packages Section -->
+        <section class="packages-section-four our_restaurant">
+            <div class="auto-container">
+                <div class="sec-title text-center">
+                    <!-- <span class="sub-title-three">packages</span> -->
+                    <h2>We Provide Top Class Food <br>Especially For You</h2>
+                </div>
+                <div class="carousel-outer position-relative">
+                    <div class="packages-carousel owl-carousel owl-theme default-nav">
+                        <!-- Package Block -->
+                         <jcms:module:restaurant_img_slider/>
+                    </div>
+                   <jcms:module:restaurant-list/>
+                </div>
+            </div>
+        </section>
+        <!-- End Packages Section -->
+        <!-- Services Section -->
+        <section class="services-section services__icons">
+            <div class="auto-container">
+                <div class="sec-title text-center">
+                    <h2>Come To See Our Best <br>Services For You</h2>
+                </div>
+                <div class="row">
+                   <jcms:module:facility-list-home/>
+                </div>
+            </div>
+        </section>
+        <!-- End Services Section -->
+        <!-- Testimonial Section -->
+        <section class="testimonial-section-three testimonial_sliders">
+<jcms:module:testimonial-title/>
+
+        </section>
+        <!--End Testimonial Section -->
+        <!-- News Section -->
+        <section class="news-section image_parallex overlay_img">
+            <div class="parallax_text text-center">
+                <h1 class="mb-3">Your Relaxing Vacation Is Just A Click Away</h1>
+                <p>Free change of travel date up to 4 days before arrival and free booking cancellation</p>
+                <a href="" class="learn_more_btn px-4 py-2">Book Now</a>
+            </div>
+        </section>
+        <!--End News Section -->
+<!-- homepage gallery -->
+ <jcms:module:galleryHome/>
+<!-- homepage gallery end -->
+<!-- ota group -->
+<jcms:ota-logo/>
+<!-- ota group end -->
+<!-- footer -->
+<jcms:module:footer/>
+<!-- footer end -->
+    </div><!-- End Page Wrapper -->
+    <!-- Scroll To Top -->
+    <div class="scroll-to-top scroll-to-target" data-target="html"><span class="fa fa-angle-up"></span></div>
+    <script src="js/jquery.js"></script>
+    <script src="js/jquery-ui.js"></script>
+    <script src="js/popper.min.js"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/datepicker/1.0.10/datepicker.min.js'></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/jquery.fancybox.js"></script>
+    <script src="js/wow.js"></script>
+    <script src="js/appear.js"></script>
+    <script src="js/owl.js"></script>
+    <script src="js/swiper.min.js"></script>
+
+    <script src="js/script.js"></script>
+
+    <script type="text/javascript">
+
+$(function () {
+        $("#checkin").datepicker({
+            dateFormat: 'yy-mm-dd',
+            minDate: 'dateToday',
+            onSelect: function (dateText) {
+                var nextDay = new Date(dateText);
+                nextDay.setDate(nextDay.getDate() + 1);
+                $("#checkout").datepicker().datepicker("setDate", nextDay);
+                $("#checkout").datepicker().datepicker('option', 'minDate', nextDay);
+            }
+        }).datepicker("setDate", new Date());
+
+        $("#checkout").datepicker({
+            dateFormat: 'yy-mm-dd',
+            minDate: 'today' + 1,
+        }).datepicker("setDate", new Date());
+    });
+    </script>
+</body>
+</html>

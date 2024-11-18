@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!--================ Basic page needs ================-->
+    <title>Club Himalaya, Nagarkot by ACE Hotels</title>
+    <jcms:site:seotitle/>
+
+    <!-- Fevicon -->
+    <jcms:site:fevicon/>
+    <link rel="shortcut icon" href="images/logo.png"> 
+
+    <!--================ Google web fonts ================-->
+    <link href='https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,300;1,400;1,500;1,900&amp;display=swap'
+    rel="stylesheet"/>
+    <!--================ Vendor CSS ================-->
+    <link rel="stylesheet" href="css/fontawesome-all.min.css" />
+    <link rel="stylesheet" href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css' integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <link href='https://fonts.googleapis.com/css?family=Material+Icons%7CMaterial+Icons+Outlined%7CMaterial+Icons+Two+Tone%7CMaterial+Icons+Round%7CMaterial+Icons+Sharp' rel="stylesheet"/>
+
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/animate.css" />
+    <link rel="stylesheet" href="vendors/fancybox/jquery.fancybox.min.css" />
+    <link rel="stylesheet" href="vendors/arcticmodal/jquery.arcticmodal-0.3.css"/>
+    <link rel="stylesheet" href="vendors/owl-carousel/assets/owl.carousel.min.css"/>
+    <!--================ Theme CSS ================-->
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/responsive.css" />
+    <!--================ Vendor JS ================-->
+</head>
+
+<body>
+    <!-- Progress scroll totop -->
+   
+
+    <jcms:module:header/>
+
+    <!--Breadcrumb-->
+    <jcms:module:vacency-bread/>
+
+
+    <!--detail-->
+    <div class="uk-padding uk-padding-remove-horizontal">
+        <div class="uk-container">
+            <div class="row conntact-home">
+                <div class="offset-md-3  col-lg-7 col-md-7 col-sm-6">
+                    <div class="contact-home1-left">
+                        <div class="career-formz">
+                            <div class="call-back-form p-b30">
+                                <h2 class="text-white m-t0"><i>Request a call back</i></h2>
+                                <jcms:module:careerform/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <jcms:module:footer-booking/>
+
+
+    <!-- jQuery -->
+    <script src="vendors/modernizr.js"></script>
+    <script src="vendors/jquery-3.6.0.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="vendors/jquery.easing.1.3.min.js"></script>
+    <script src="vendors/jquery.parallax-1.1.3.min.js"></script>
+    <script src="vendors/monkeysan.accordion.js"></script>
+    <script src="vendors/monkeysan.jquery.nav.1.0.js"></script>
+    <script src="vendors/monkeysan.validator.min.js"></script>
+    <script src="vendors/handlebars-v4.0.5.min.js"></script>
+    <script src="vendors/arcticmodal/jquery.arcticmodal-0.3.min.js"></script>
+    <script src="vendors/retina.min.js"></script>
+    <script src="vendors/sticky-sidebar.js"></script>
+    <script src="vendors/owl-carousel/owl.carousel.min.js"></script>
+    <script src="vendors/mad.customselect.js"></script>
+    <script src="vendors/fancybox/jquery.fancybox.min.js"></script>
+    <script src="vendors/countdown/jquery.plugin.min.js"></script>
+    <script src="vendors/countdown/jquery.countdown.js"></script>
+    <script src="js/modules/mad.alert-box.min.js"></script>
+    <script src="js/modules/mad.newsletter-form.min.js"></script>
+    <script src="js/modules/mad.sticky-header-section.min.js"></script>
+    <script src="js/mad.app.js"></script>
+    <script src="js/datepicker.js"></script>
+    
+<script src="js/jquery.validate.min.js"></script>
+
+    
+
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#frm_contact').validate({
+            errorElement: 'span',
+            errorClass: 'validate-has-error',
+            rules: {
+                name: {required: true},
+                phone: {required: true},
+                email: {required: true, email: true},
+                subject: {required: true},
+                message: {required: true}
+            },
+            messages: {
+                name: {required: "Please enter your Name."},
+                phone: {required: "Please enter your Phone Number."},
+                email: {required: "Please enter your Email."},
+                subject: {required: "Please enter your Subject."},
+                message: {required: "Please enter your Message."}
+            },
+            submitHandler: function (form) {
+                var Frmval = $("form#frm_contact").serialize();
+                $("button#submit").attr("disabled", "true").text('Processing...');
+                $.ajax({
+                    type: "POST",
+                    dataType: "JSON",
+                    url: "enquery_mail.php",
+                    data: "action=forContact&" + Frmval,
+                    success: function (data) {
+                        var msg = eval(data);
+                        $("button#submit").removeAttr("disabled").text('Send Message');
+                        $('div#result_msg').html(msg.message).css('display', 'block').fadeOut(8000);
+                        $("form#frm_contact")[0].reset();
+                    }
+                });
+                return false;
+            }
+        })
+    });
+</script>
+
+<!--career Form-->
+<script type="text/javascript">
+    var base_url = jQuery('base').attr('url');
+    jQuery(document).ready(function () {
+        jQuery('#careerform').validate({
+            errorElement: 'span',
+            errorClass: 'validate-has-error',
+            rules: {
+                name: {required: true, minlength: 2},
+                email: {required: true, email: true},
+                phone: {required: true, number: true},
+                address: {required: true},
+                message: {required: true},
+                myfile: {required: true},
+            },
+            messages: {
+                name: {required: "This field is required. Please enter your Name", minlength: "Your name must consist of at least 2 characters"},
+                email: {required: "This field is required.", email: "Enter Correct Email "},
+                phone: {required: "Contact number is required"},
+                address: {required: "Address is required"},
+                message: {required: "subject is required"},
+                myfile: {required: "You need to attach your CV."},
+            },
+            submitHandler: function (form) {
+                var Frmval = jQuery("form#careerform").serialize();
+                jQuery("span.suubmit").attr("disabled", "true").html('Processing...');
+                jQuery.ajax({
+                    type: "POST",
+                    dataType: "JSON",
+                    url: base_url + "career_mail.php",
+                    data: "action=forcareer&" + Frmval,
+                    success: function (data) {
+                        var msg = eval(data);
+                        jQuery("span.suubmit").removeAttr("disabled").html('Apply Now');
+                        jQuery('div#msg').html(msg.message).css('display', 'block').fadeOut(10000);
+                        jQuery("form#careerform")[0].reset();
+                        $('#responseFile').html("");
+                        /*setTimeout(function () {
+                            window.location.reload();
+                        }, 8000);*/
+                    }
+                });
+                return false;
+            }
+        })
+    });
+    $(document).on('change', 'input[name="myfile"]', function (e) {
+        e.preventDefault();
+        var form_data = new FormData($('#careerform')[0]);
+        $.ajax({
+            type: 'post',
+            dataType: 'json',
+            url: base_url + "fileupload.php",
+            data: form_data,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function (answ) {
+                var rec = eval(answ);
+                $('#responseFile').html(rec.msg);
+                $('input[name="fileArrayname"]').val(rec.filename);
+                //jQuery("form#careerform")[0].reset();
+            }
+        })
+        return false;
+    })
+
+</script>
+
+</body>
+</html>
